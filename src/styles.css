@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,body,#root { height:100%; }
+
+::-webkit-scrollbar { width: 10px; height:10px; }
+::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:6px; }
+::-webkit-scrollbar-track { background:transparent; }
+
+.table-mini th { @apply text-[10px] font-semibold uppercase tracking-wide text-slate-500 px-1 py-1; }
+.table-mini td { @apply text-xs px-1 py-0.5; }
