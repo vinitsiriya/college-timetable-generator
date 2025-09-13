@@ -4,15 +4,17 @@ import { DAYS, PERIODS, TimetableResult, SUBJECTS, PERIOD_TIME_RANGES } from '..
 import { InstitutionHeader } from '../../shared/InstitutionHeader';
 import { buildAutoLogoDataURI } from '../../shared/logo';
 
+
 interface Props {
   values: FormValues;
   timetable: TimetableResult;
   logoSvg: string;
+  customLogoData?: string;
   subjects: any[];
   onBack?: ()=>void;
 }
 
-export const TimetablePreview: React.FC<Props> = ({ values, timetable, logoSvg, subjects, onBack }) => {
+export const TimetablePreview: React.FC<Props> = ({ values, timetable, logoSvg, customLogoData, subjects, onBack }) => {
   const dynamicFooter = useMemo(()=> buildFooter(values), [values]);
   return (
     <div className="printable space-y-6">
@@ -20,7 +22,7 @@ export const TimetablePreview: React.FC<Props> = ({ values, timetable, logoSvg, 
         {onBack && <button onClick={onBack} className="px-3 py-1.5 rounded-md bg-slate-200 hover:bg-slate-300 text-[11px] font-medium">← Back</button>}
       </div>
       <div className="bg-white shadow rounded-xl border overflow-hidden">
-        <LetterHead values={values} logoSvg={logoSvg} />
+        <LetterHead values={values} logoSvg={logoSvg} customLogoData={customLogoData} />
         <div className="px-6 pt-2 pb-6">
           {(values.studentName || values.studentRoll || values.studentAddress) && (
             <div className="mb-5 text-left border-l-4 border-indigo-600 pl-4 py-1 bg-indigo-50/40 rounded-sm">
@@ -55,7 +57,13 @@ export const TimetablePreview: React.FC<Props> = ({ values, timetable, logoSvg, 
   );
 };
 
-const LetterHead: React.FC<{values:FormValues; logoSvg:string}> = ({ values, logoSvg }) => (
+interface LetterHeadProps {
+  values: FormValues;
+  logoSvg: string;
+  customLogoData?: string;
+}
+
+const LetterHead: React.FC<LetterHeadProps> = ({ values, logoSvg, customLogoData }) => (
   <InstitutionHeader
     institutionName={values.institutionName}
     department={values.department}
@@ -70,7 +78,7 @@ const LetterHead: React.FC<{values:FormValues; logoSvg:string}> = ({ values, log
     logoBgInner={values.logoBgInner}
     logoBgSecondary={values.logoBgSecondary}
     logoLetters={values.logoLetters}
-    logoData={buildAutoLogoDataURI({
+    logoData={customLogoData ? customLogoData : buildAutoLogoDataURI({
       institutionName: values.institutionName,
       logoVariant: values.logoVariant,
       logoBaseColor: values.logoBaseColor,
