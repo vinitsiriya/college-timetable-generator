@@ -60,7 +60,14 @@ export const App: React.FC = () => {
           <Wizard step={step} setStep={setStep} steps={steps} values={values} onChange={setValues} logoSvg={logoSvg} />
         )}
         {step === steps.length-1 && (
-          <TimetablePreview values={values} timetable={timetable} logoSvg={logoSvg} subjects={selectedSubjects} onBack={back} />
+          <TimetablePreview
+            values={values}
+            timetable={timetable}
+            logoSvg={logoSvg}
+            customLogoData={values.customLogoData}
+            subjects={selectedSubjects}
+            onBack={back}
+          />
         )}
       </main>
     </div>
